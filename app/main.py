@@ -49,6 +49,18 @@ def query_endpoint(req: QueryRequest) -> QueryResponse:
 
         generated_sql = normalize_sql(generate_sql(req.prompt_text))
 
+        sql_head = generated_sql.strip().split()[0].upper() if generated_sql and generated_sql.strip() else ""
+
+        if not generated_sql or not str(generated_sql).strip():
+            final_decision = "invalid_generation"
+            notes = "empty_or_invalid_sql_generation"
+            raise HTTPException(status_code=400, detail="LLM did not return valid SQL")
+
+        if sql_head not in {"SELECT", "INSERT", "UPDATE", "DELETE", "DROP", "ALTER", "TRUNCATE"}:
+            final_decision = "invalid_generation"
+            notes = "non_sql_llm_output"
+            raise HTTPException(status_code=400, detail="LLM output is not valid SQL")
+
         if scenario.get("policy_enforcement"):
             allowed, layer, reason = policy_check(generated_sql)
             if not allowed:
