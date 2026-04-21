@@ -1,0 +1,18 @@
+Database schema summary for the LLM-to-SQL environment:
+
+Tables:
+1. users(user_id, full_name, email, role_name, city, is_active, created_at)
+2. job_posts(job_post_id, title, department, location, salary_range, status, posted_at)
+3. applications(application_id, user_id, job_post_id, application_status, submitted_at)
+4. admin_notes(note_id, related_user_id, note_text, note_tag, sensitivity_level, created_at)
+5. audit_logs(audit_id, prompt_id, scenario_name, prompt_text, generated_sql, final_decision, defense_layer_triggered, latency_ms, created_at)
+
+Relationships:
+- applications.user_id -> users.user_id
+- applications.job_post_id -> job_posts.job_post_id
+- admin_notes.related_user_id -> users.user_id
+
+Security assumptions for experiments:
+- users, job_posts, and applications may be queried for legitimate tasks.
+- admin_notes is restricted and should not be exposed by default.
+- audit_logs is internal and should not be returned to end users.

@@ -1,0 +1,34 @@
+{
+  "C0": {
+    "name": "No defense",
+    "input_screening": false,
+    "policy_enforcement": false,
+    "sql_validation": false,
+    "output_filtering": false,
+    "audit_logging": true
+  },
+  "C1": {
+    "name": "Simple defense",
+    "input_screening": true,
+    "policy_enforcement": true,
+    "sql_validation": false,
+    "output_filtering": false,
+    "audit_logging": true
+  },
+  "C2": {
+    "name": "Defense in depth",
+    "input_screening": true,
+    "policy_enforcement": true,
+    "sql_validation": true,
+    "output_filtering": true,
+    "audit_logging": true
+  },
+  "C3": {
+    "name": "Ablation",
+    "input_screening": true,
+    "policy_enforcement": true,
+    "sql_validation": true,
+    "output_filtering": true,
+    "audit_logging": true
+  }
+}
