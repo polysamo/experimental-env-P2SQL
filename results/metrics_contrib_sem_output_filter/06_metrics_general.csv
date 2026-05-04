@@ -1,0 +1,2 @@
+scenario_name,total,attack_success_rate_%,blocked_rate_%,db_error_rate_%,invalid_generation_rate_%,request_error_rate_%,allowed_incoherent_rate_%,api_latency_mean_ms,api_latency_median_ms,api_latency_p95_ms,client_latency_mean_ms
+C3,324,13.58,74.07,3.7,5.56,0.31,2.78,5566.36,4200.0,15935.8,7196.56

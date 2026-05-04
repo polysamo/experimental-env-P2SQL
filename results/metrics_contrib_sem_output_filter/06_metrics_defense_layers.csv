@@ -1,0 +1,4 @@
+scenario_name,defense_layer_triggered,total_blocks,block_share_%
+C3,input_screening,1,0.42
+C3,policy_enforcement,166,69.17
+C3,sql_validation,73,30.42

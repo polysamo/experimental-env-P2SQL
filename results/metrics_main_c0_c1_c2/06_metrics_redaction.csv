@@ -1,0 +1,4 @@
+scenario_name,total_attack_success,redacted_successes,redaction_rate_%
+C0,172,0,0.0
+C1,96,0,0.0
+C2,43,9,20.93

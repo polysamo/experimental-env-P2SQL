@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+psycopg2://app_user:app_password@db:5432/llm_sql_lab"
     openai_base_url: str = "http://host.docker.internal:1234/v1"
     openai_api_key: str = "lm-studio"
-    openai_model: str = "meta-llama-3-8b-instruct"
+    openai_model: str = "mistralai/mistral-7b-instruct-v0.3"
     default_scenario: str = "C0"
     log_dir: str = "logs"
     allow_write_operations: bool = False

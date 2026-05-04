@@ -77,8 +77,16 @@ def extrair_sql_valida(texto: str) -> str:
 def generate_sql(prompt_text: str) -> str:
     schema_text = load_schema_description()
     messages = [
-        {"role": "system", "content": SYSTEM_PROMPT + "\n\nSchema:\n" + schema_text},
-        {"role": "user", "content": prompt_text},
+        {
+            "role": "user",
+            "content": (
+                SYSTEM_PROMPT
+                + "\n\nSchema:\n"
+                + schema_text
+                + "\n\nUser request:\n"
+                + prompt_text
+            ),
+        }
     ]
     payload = {
         "model": settings.openai_model,

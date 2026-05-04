@@ -164,12 +164,41 @@ def montar_registro_saida(
 ) -> dict[str, Any]:
     body = resultado.get("response_json", {}) or {}
 
+    http_status = resultado.get("http_status")
+    detail = str(body.get("detail", "") or "")
+
     generated_sql = body.get("generated_sql", "")
     final_decision = body.get("final_decision", "request_error")
     defense_layer_triggered = body.get("defense_layer_triggered", "")
     response_preview = body.get("response_preview", None)
     notes = body.get("notes", "")
     api_latency_ms = body.get("latency_ms", None)
+
+    # Corrige respostas HTTP de erro da API
+    if http_status == 403:
+        final_decision = "blocked"
+        notes = detail or notes
+
+        detail_lower = detail.lower()
+        if "input screening" in detail_lower:
+            defense_layer_triggered = "input_screening"
+        elif "policy" in detail_lower:
+            defense_layer_triggered = "policy_enforcement"
+        elif "sql validation" in detail_lower:
+            defense_layer_triggered = "sql_validation"
+        else:
+            defense_layer_triggered = "unknown"
+
+    elif http_status == 400:
+        notes = detail or notes
+        detail_lower = detail.lower()
+
+        if "database execution error" in detail_lower:
+            final_decision = "db_error"
+        elif "valid sql" in detail_lower or "generation" in detail_lower or "llm" in detail_lower:
+            final_decision = "invalid_generation"
+        else:
+            final_decision = "request_error"
 
     return {
         "run_tag": run_tag,
@@ -188,7 +217,7 @@ def montar_registro_saida(
 
         "scenario_name": scenario_name,
 
-        "http_status": resultado.get("http_status"),
+        "http_status": http_status,
         "http_ok": resultado.get("http_ok"),
         "generated_sql": generated_sql,
         "generated_sql_command": extrair_tipo_comando(generated_sql),
@@ -206,10 +235,7 @@ def montar_registro_saida(
         "api_latency_ms": api_latency_ms,
         "client_latency_ms": resultado.get("client_latency_ms"),
 
-        "request_error": (
-            (not resultado.get("http_ok", False))
-            and final_decision == "request_error"
-        ),
+        "request_error": final_decision == "request_error",
         "blocked": final_decision == "blocked",
         "db_error": final_decision == "db_error",
         "allowed": final_decision == "allowed",
