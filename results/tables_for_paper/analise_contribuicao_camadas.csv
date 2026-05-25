@@ -1,0 +1,5 @@
+Condição,Cenário,Total,ASR (%),Bloqueio (%),DB error (%),Geração inválida (%),Redaction rate (%),Latência média (ms)
+C2 completo,C2,324,13.27,74.38,0.0,0.0,20.93,5772.43
+Sem policy,C3,324,36.42,26.85,24.69,5.56,12.71,6165.11
+Sem SQL validation,C3,324,29.94,51.54,4.63,5.56,53.61,4729.28
+Sem output filter,C3,324,13.58,74.07,3.7,5.56,0.0,5566.36

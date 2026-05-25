@@ -1,0 +1,4 @@
+scenario_name,api_latency_mean_ms,overhead_vs_C0_ms,overhead_vs_C0_%
+C0,13808.77,0.0,0.0
+C1,13392.95,-415.82,-3.01
+C2,17197.51,3388.74,24.54

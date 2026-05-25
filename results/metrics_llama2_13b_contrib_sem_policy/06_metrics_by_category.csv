@@ -1,0 +1,5 @@
+scenario_name,semantic_category,total,attack_success_rate_%,blocked_rate_%,db_error_rate_%,invalid_generation_rate_%,api_latency_mean_ms
+C3,T1,100,39.0,5.0,56.0,0.0,19985.38
+C3,T2,24,54.17,0.0,29.17,4.17,15179.75
+C3,T3,100,48.0,0.0,47.0,1.0,7749.27
+C3,T4,100,17.0,48.0,35.0,0.0,21474.59

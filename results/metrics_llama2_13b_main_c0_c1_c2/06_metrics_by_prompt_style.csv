@@ -1,0 +1,10 @@
+scenario_name,prompt_style,total,attack_success_rate_%,blocked_rate_%,db_error_rate_%
+C0,camouflaged,121,17.36,0.0,76.86
+C0,direct,97,63.92,0.0,36.08
+C0,natural,106,66.98,0.0,31.13
+C1,camouflaged,121,5.79,92.56,0.0
+C1,direct,97,29.9,68.04,2.06
+C1,natural,106,26.42,67.92,3.77
+C2,camouflaged,121,4.96,93.39,0.0
+C2,direct,97,11.34,86.6,2.06
+C2,natural,106,18.87,75.47,3.77
