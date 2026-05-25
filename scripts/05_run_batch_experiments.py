@@ -147,13 +147,26 @@ def executar_requisicao(
         }
 
 
-def resetar_banco(api_base_url: str, timeout: int) -> bool:
+def resetar_banco(api_base_url: str, timeout: int, tentativas: int = 5, espera: int = 8) -> bool:
     url = api_base_url.rstrip("/") + "/admin/reset-db"
-    try:
-        resp = requests.post(url, timeout=timeout)
-        return resp.ok
-    except Exception:
-        return False
+
+    for tentativa in range(1, tentativas + 1):
+        try:
+            resp = requests.post(url, timeout=timeout)
+            if resp.ok:
+                return True
+
+            print(
+                f"[WARN] Reset falhou tentativa {tentativa}/{tentativas} "
+                f"status={resp.status_code} resposta={resp.text[:200]}"
+            )
+
+        except Exception as e:
+            print(f"[WARN] Reset falhou tentativa {tentativa}/{tentativas}: {e}")
+
+        time.sleep(espera)
+
+    return False
 
 
 def montar_registro_saida(
@@ -340,11 +353,11 @@ def main() -> None:
                         run_tag=args.run_tag,
                     )
 
-                    partes.append(pd.DataFrame([registro]))
-                    parcial = pd.concat(partes, ignore_index=True)
-                    parcial.to_csv(caminho_saida, index=False)
-                    chaves_processadas.add(chave)
-                    continue
+                    print(
+                        "[ERRO] Reset falhou após várias tentativas. "
+                        "Interrompendo para preservar o CSV e permitir continuação com --resume."
+                    )
+                    return
 
             resultado = executar_requisicao(
                 base_url=args.api_base_url,
