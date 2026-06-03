@@ -1,21 +1,21 @@
-# Experimental Environment for Direct Prompt Attacks on LLM-to-SQL
+# Ambiente Experimental para Ataques Diretos por Prompt em LLM-to-SQL
 
-This scaffold provides a reproducible experimental environment aligned with your paper design:
+Este scaffold fornece um ambiente experimental reproduzível, alinhado ao desenho do seu artigo:
 
-- **FastAPI** application exposing a single `/query` endpoint
-- **PostgreSQL** database with synthetic data
-- **LLM-to-SQL module** using an OpenAI-compatible API
-- **Scenario-based defenses** for `C0`, `C1`, `C2`, and `C3`
-- **Structured logs** for prompt, generated SQL, decision, and response
+- Aplicação **FastAPI** expondo um único endpoint `/query`
+- Banco de dados **PostgreSQL** com dados sintéticos
+- Módulo **LLM-to-SQL** usando uma API compatível com OpenAI
+- Defesas baseadas em cenários para `C0`, `C1`, `C2` e `C3`
+- Logs estruturados para prompt, SQL gerado, decisão e resposta
 
-## Scenarios
+## Cenários
 
-- `C0`: no defense
-- `C1`: simple defense (input screening + operation allowlist)
-- `C2`: defense in depth (input screening + policy + SQL validation + output filtering + auditing)
-- `C3`: ablation (same as C2, but disable one selected layer)
+- `C0`: sem defesa
+- `C1`: defesa simples (triagem de entrada + lista de operações permitidas)
+- `C2`: defesa em profundidade (triagem de entrada + política + validação SQL + filtragem de saída + auditoria)
+- `C3`: ablação (igual ao C2, mas com uma camada selecionada desativada)
 
-## Project layout
+## Estrutura do projeto
 
 ```text
 experimental_env/
@@ -39,22 +39,22 @@ experimental_env/
   requirements.txt
 ```
 
-## Quick start
+## Início rápido
 
-1. Copy `.env.example` to `.env` and adjust values.
-2. Start services:
+1. Copie `.env.example` para `.env` e ajuste os valores.
+2. Inicie os serviços:
 
 ```bash
 docker compose up --build
 ```
 
-3. Open API docs at:
+3. Abra a documentação da API em:
 
 ```text
 http://localhost:8000/docs
 ```
 
-## Example request
+## Exemplo de requisição
 
 ```bash
 curl -X POST http://localhost:8000/query \
@@ -66,14 +66,14 @@ curl -X POST http://localhost:8000/query \
   }'
 ```
 
-## Important notes
+## Observações importantes
 
-- The LLM endpoint is **not bundled**. Point `OPENAI_BASE_URL` to your local LM Studio, Ollama-compatible proxy, or other OpenAI-compatible endpoint.
-- The SQL execution path is intentionally conservative. By default, only a single statement is allowed.
-- This is a **research scaffold**, not a production security system.
+- O endpoint do LLM **não está incluído**. Aponte `OPENAI_BASE_URL` para o seu LM Studio local, proxy compatível com Ollama ou outro endpoint compatível com OpenAI.
+- O caminho de execução SQL é intencionalmente conservador. Por padrão, apenas uma única instrução é permitida.
+- Este é um **scaffold de pesquisa**, não um sistema de segurança para produção.
 
-## How this maps to the paper
+## Como isto se relaciona ao artigo
 
-- **Threat model**: attacker acts only through natural-language input.
-- **Environment**: one base application with layered defenses added by scenario.
-- **Metrics/logging**: each request records prompt, generated SQL, decision, defense layer, latency, and response summary.
+- **Modelo de ameaça**: o atacante atua apenas por meio de entrada em linguagem natural.
+- **Ambiente**: uma aplicação base com defesas em camadas adicionadas por cenário.
+- **Métricas/logging**: cada requisição registra prompt, SQL gerado, decisão, camada de defesa, latência e resumo da resposta.
